@@ -4,6 +4,7 @@ import com.imooc.order.VO.ResultVO;
 import com.imooc.order.client.ProductClient;
 import com.imooc.order.converter.OrderForm2OrderDTOConverter;
 import com.imooc.order.dataobject.ProductInfo;
+import com.imooc.order.dto.CartDTO;
 import com.imooc.order.dto.OrderDTO;
 import com.imooc.order.enums.ResultEnum;
 import com.imooc.order.excetion.SellException;
@@ -41,6 +42,11 @@ public class OrderController {
     @GetMapping("/getProductList")
     public List<ProductInfo> getProductList() {
         return productClient.listForOrder(Arrays.asList("123456", "123457"));
+    }
+
+    @GetMapping("/productDecreaseStock")
+    public String productDecreaseStock() {
+        return productClient.decreaseStock(Arrays.asList(new CartDTO("123456",2)));
     }
 
     @PostMapping("/create")

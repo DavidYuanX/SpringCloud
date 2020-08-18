@@ -2,6 +2,7 @@ package com.imooc.product.service;
 
 import com.imooc.product.dataobject.ProductInfo;
 //import com.imooc.dto.CartDTO;
+import com.imooc.product.dto.CartDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -27,10 +28,10 @@ public interface ProductService {
     ProductInfo save(ProductInfo productInfo);
 
     // 加库存
-//    void increaseStock(List<CartDTO> cartDTOList);
+    void increaseStock(List<CartDTO> cartDTOList);
 
     // 减库存
-//    void decreaseStock(List<CartDTO> cartDTOList);
+    void decreaseStock(List<CartDTO> cartDTOList);
 
 //    ProductInfo OnSale(String productId);
 //
