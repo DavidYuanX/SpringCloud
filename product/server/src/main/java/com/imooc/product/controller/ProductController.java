@@ -4,9 +4,10 @@ package com.imooc.product.controller;
 import com.imooc.product.VO.PrductVo;
 import com.imooc.product.VO.ProductInfoVO;
 import com.imooc.product.VO.ResultVO;
+import com.imooc.product.common.DescreaseStockInput;
+import com.imooc.product.common.ProductInfoOutput;
 import com.imooc.product.dataobject.ProductCategory;
 import com.imooc.product.dataobject.ProductInfo;
-import com.imooc.product.dto.CartDTO;
 import com.imooc.product.service.CategoryService;
 import com.imooc.product.service.ProductService;
 import org.springframework.beans.BeanUtils;
@@ -14,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -62,19 +62,19 @@ public class ProductController {
         return resultVO.success(prductVoList);
     }
 
-    @PostMapping("/listForOrder")
-    public List<ProductInfo> listForOrder(@RequestBody List<String> productIdList) {
-        return productService.findList(productIdList);
-    }
-
-    @PostMapping("/decreaseStock")
-    public String decreaseStock(@RequestBody List<CartDTO> cartDTOList) {
-        productService.decreaseStock(cartDTOList);
-        return "decreaseStock ok";
-    }
-    @PostMapping("/increaseStock")
-    public String increaseStock(@RequestBody List<CartDTO> cartDTOList) {
-        productService.increaseStock(cartDTOList);
-        return "increaseStock ok";
-    }
+//    @PostMapping("/listForOrder")
+//    public List<ProductInfoOutput> listForOrder(@RequestBody List<String> productIdList) {
+//        return productService.findList(productIdList);
+//    }
+//
+//    @PostMapping("/decreaseStock")
+//    public String decreaseStock(@RequestBody List<DescreaseStockInput> descreaseStockInputList) {
+//        productService.decreaseStock(descreaseStockInputList);
+//        return "decreaseStock ok";
+//    }
+//    @PostMapping("/increaseStock")
+//    public String increaseStock(@RequestBody List<DescreaseStockInput> descreaseStockInputList) {
+//        productService.increaseStock(descreaseStockInputList);
+//        return "increaseStock ok";
+//    }
 }

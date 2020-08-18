@@ -1,8 +1,8 @@
 package com.imooc.product.service;
 
+import com.imooc.product.common.DescreaseStockInput;
+import com.imooc.product.common.ProductInfoOutput;
 import com.imooc.product.dataobject.ProductInfo;
-//import com.imooc.dto.CartDTO;
-import com.imooc.product.dto.CartDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -21,17 +21,17 @@ public interface ProductService {
 
 
     // 查询商品列表
-    List<ProductInfo> findList(List<String> productIdList);
+    List<ProductInfoOutput> findList(List<String> productInfoOutputList);
 
 
     // 保存
     ProductInfo save(ProductInfo productInfo);
 
     // 加库存
-    void increaseStock(List<CartDTO> cartDTOList);
+    void increaseStock(List<DescreaseStockInput> descreaseStockInputList);
 
     // 减库存
-    void decreaseStock(List<CartDTO> cartDTOList);
+    void decreaseStock(List<DescreaseStockInput> descreaseStockInputList);
 
 //    ProductInfo OnSale(String productId);
 //

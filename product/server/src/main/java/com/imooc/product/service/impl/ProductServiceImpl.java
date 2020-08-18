@@ -1,20 +1,20 @@
 package com.imooc.product.service.impl;
 
+import com.imooc.product.common.DescreaseStockInput;
+import com.imooc.product.common.ProductInfoOutput;
 import com.imooc.product.dataobject.ProductInfo;
-//import com.imooc.dto.CartDTO;
-import com.imooc.product.dto.CartDTO;
 import com.imooc.product.enums.ProductStatusEnum;
-//import com.imooc.product.excetion.SellException;
 import com.imooc.product.enums.ResultEnum;
 import com.imooc.product.excetion.SellException;
 import com.imooc.product.repository.ProductInfoRepository;
 import com.imooc.product.service.ProductService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -33,8 +33,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductInfo> findList(List<String> productIdList) {
-        return repository.findByProductIdIn(productIdList);
+    public List<ProductInfoOutput> findList(List<String> productIdList) {
+        return repository.findByProductIdIn(productIdList).stream()
+                .map(e -> {
+                    ProductInfoOutput output = new ProductInfoOutput();
+                    BeanUtils.copyProperties(e,output);
+                    return output;
+                }).collect(Collectors.toList());
     }
 
 //    @Override
@@ -49,13 +54,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public void increaseStock(List<CartDTO> cartDTOList) {
-        for (CartDTO cartDTO: cartDTOList) {
-            ProductInfo productInfo = repository.findById(cartDTO.getProductId()).orElse(null);
+    public void increaseStock(List<DescreaseStockInput> descreaseStockInputList) {
+        for (DescreaseStockInput descreaseStockInput: descreaseStockInputList) {
+            ProductInfo productInfo = repository.findById(descreaseStockInput.getProductId()).orElse(null);
             if(productInfo == null){
                 throw  new SellException(ResultEnum.PRODUCT_NOT_EXIST);
             }
-            Integer result = productInfo.getProductStock() + cartDTO.getProductQuantity();
+            Integer result = productInfo.getProductStock() + descreaseStockInput.getProductQuantity();
             productInfo.setProductStock(result);
             repository.save(productInfo);
         }
@@ -63,14 +68,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public void decreaseStock(List<CartDTO> cartDTOList) {
-        for (CartDTO cartDTO: cartDTOList){
-            ProductInfo productInfo = repository.findById(cartDTO.getProductId()).orElse(null);
+    public void decreaseStock(List<DescreaseStockInput> descreaseStockInputList) {
+        for (DescreaseStockInput descreaseStockInput: descreaseStockInputList){
+            ProductInfo productInfo = repository.findById(descreaseStockInput.getProductId()).orElse(null);
             if(productInfo == null){
                 throw  new SellException(ResultEnum.PRODUCT_NOT_EXIST);
             }
 
-            Integer result = productInfo.getProductStock() - cartDTO.getProductQuantity();
+            Integer result = productInfo.getProductStock() - descreaseStockInput.getProductQuantity();
 
             if(result < 0){
                 throw new SellException(ResultEnum.PRODUCT_STOCK_ERROR);
