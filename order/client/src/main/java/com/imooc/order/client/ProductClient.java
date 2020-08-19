@@ -1,7 +1,7 @@
 package com.imooc.order.client;
 
-import com.imooc.order.dataobject.ProductInfo;
-import com.imooc.order.dto.CartDTO;
+import com.imooc.product.common.DescreaseStockInput;
+import com.imooc.product.common.ProductInfoOutput;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,12 +18,12 @@ public interface ProductClient {
     String productMsg();
 
     @PostMapping("/product/listForOrder")
-    List<ProductInfo> listForOrder(List<String> productIdList);
+    List<ProductInfoOutput> listForOrder(@RequestBody List<String> productIdList);
 
     @PostMapping("/product/decreaseStock")
-    public String decreaseStock(@RequestBody List<CartDTO> cartDTOList);
+    Void decreaseStock(@RequestBody List<DescreaseStockInput> descreaseStockInputList);
 
     @PostMapping("/product/increaseStock")
-    public String increaseStock(@RequestBody List<CartDTO> cartDTOList);
+    Void increaseStock(@RequestBody List<DescreaseStockInput> descreaseStockInputList);
 }
 

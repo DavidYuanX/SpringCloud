@@ -1,17 +1,17 @@
-package com.imooc.product;
+package com.example.config;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.cloud.config.server.EnableConfigServer;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-//@EnableFeignClients(basePackages = "com.imooc.product.client")
-public class ProductApplication {
+@EnableConfigServer
+public class ConfigApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ProductApplication.class, args);
+        SpringApplication.run(ConfigApplication.class, args);
     }
 
 }

@@ -3,16 +3,18 @@ package com.imooc.order.controller;
 import com.imooc.order.VO.ResultVO;
 import com.imooc.order.client.ProductClient;
 import com.imooc.order.converter.OrderForm2OrderDTOConverter;
-import com.imooc.order.dataobject.ProductInfo;
-import com.imooc.order.dto.CartDTO;
 import com.imooc.order.dto.OrderDTO;
 import com.imooc.order.enums.ResultEnum;
 import com.imooc.order.excetion.SellException;
 import com.imooc.order.form.OrderForm;
 import com.imooc.order.service.OrderService;
 import com.imooc.order.utils.ResultVOUtil;
+import com.imooc.product.common.DescreaseStockInput;
+import com.imooc.product.common.ProductInfoOutput;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +28,7 @@ import java.util.*;
 @RestController
 @RequestMapping("/order")
 @Slf4j
+@RefreshScope
 public class OrderController {
 
     @Autowired
@@ -34,19 +37,28 @@ public class OrderController {
     @Autowired
     private ProductClient productClient;
 
+    @Value("${env}")
+    private String env;
+
+    @GetMapping("/getPrint")
+    public String getPrint(){
+
+        return "env"; }
+
     @GetMapping("/getProductMsg")
     public String getProductMsg() {
         return productClient.productMsg();
     }
 
     @GetMapping("/getProductList")
-    public List<ProductInfo> getProductList() {
+    public List<ProductInfoOutput> getProductList() {
         return productClient.listForOrder(Arrays.asList("123456", "123457"));
     }
 
     @GetMapping("/productDecreaseStock")
     public String productDecreaseStock() {
-        return productClient.decreaseStock(Arrays.asList(new CartDTO("123456",2)));
+        productClient.decreaseStock(Arrays.asList(new DescreaseStockInput("123456",2)));
+        return "ok";
     }
 
     @PostMapping("/create")
