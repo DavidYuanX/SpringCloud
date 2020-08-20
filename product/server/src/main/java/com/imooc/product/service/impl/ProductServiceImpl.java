@@ -8,19 +8,28 @@ import com.imooc.product.enums.ResultEnum;
 import com.imooc.product.excetion.SellException;
 import com.imooc.product.repository.ProductInfoRepository;
 import com.imooc.product.service.ProductService;
+import com.imooc.product.utils.JsonUtil;
+import com.rabbitmq.tools.json.JSONUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductInfoRepository repository;
+
+    @Autowired
+    private AmqpTemplate amqpTemplate;
 
     @Override
     public ProductInfo findOne(String productId) {
@@ -69,13 +78,16 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public void decreaseStock(List<DescreaseStockInput> descreaseStockInputList) {
+
+        List<ProductInfo> productInfoList = new ArrayList<>();
+
         for (DescreaseStockInput descreaseStockInput: descreaseStockInputList){
             ProductInfo productInfo = repository.findById(descreaseStockInput.getProductId()).orElse(null);
             if(productInfo == null){
                 throw  new SellException(ResultEnum.PRODUCT_NOT_EXIST);
             }
 
-            Integer result = productInfo.getProductStock() - descreaseStockInput.getProductQuantity();
+            int result = productInfo.getProductStock() - descreaseStockInput.getProductQuantity();
 
             if(result < 0){
                 throw new SellException(ResultEnum.PRODUCT_STOCK_ERROR);
@@ -83,7 +95,19 @@ public class ProductServiceImpl implements ProductService {
 
             productInfo.setProductStock(result);
             repository.save(productInfo);
+            productInfoList.add(productInfo);
         }
+        List<ProductInfoOutput> productInfoOutputList = productInfoList.stream().map(e -> {
+            ProductInfoOutput productInfoOutput = new ProductInfoOutput();
+            BeanUtils.copyProperties(e,productInfoOutput);
+            return productInfoOutput;
+        }).collect(Collectors.toList());
+
+//        ProductInfoOutput productInfoOutput = new ProductInfoOutput();
+//        BeanUtils.copyProperties(productInfo,productInfoOutput);
+//        log.info("productInfoOutput{} :",productInfoOutput);
+//        // 发送mq 消息
+        amqpTemplate.convertAndSend("productInfo", JsonUtil.toJson(productInfoOutputList));
     }
 
 //    @Override

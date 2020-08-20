@@ -2,6 +2,8 @@ package com.imooc.order.controller;
 
 import com.imooc.order.VO.ResultVO;
 import com.imooc.order.client.ProductClient;
+import com.imooc.order.common.DescreaseStockInput;
+import com.imooc.order.common.ProductInfoOutput;
 import com.imooc.order.converter.OrderForm2OrderDTOConverter;
 import com.imooc.order.dto.OrderDTO;
 import com.imooc.order.enums.ResultEnum;
@@ -9,9 +11,8 @@ import com.imooc.order.excetion.SellException;
 import com.imooc.order.form.OrderForm;
 import com.imooc.order.service.OrderService;
 import com.imooc.order.utils.ResultVOUtil;
-import com.imooc.product.common.DescreaseStockInput;
-import com.imooc.product.common.ProductInfoOutput;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -37,6 +38,7 @@ public class OrderController {
     @Autowired
     private ProductClient productClient;
 
+
     @Value("${env}")
     private String env;
 
@@ -52,13 +54,22 @@ public class OrderController {
 
     @GetMapping("/getProductList")
     public List<ProductInfoOutput> getProductList() {
+
         return productClient.listForOrder(Arrays.asList("123456", "123457"));
     }
 
     @GetMapping("/productDecreaseStock")
     public String productDecreaseStock() {
-        productClient.decreaseStock(Arrays.asList(new DescreaseStockInput("123456",2)));
-        return "ok";
+        productClient.decreaseStock(Arrays.asList(new DescreaseStockInput("123456",2),
+                        new DescreaseStockInput("123457",2)));
+        return "productDecreaseStock ok";
+    }
+
+    @GetMapping("/productIncreaseStock")
+    public String productIncreaseStock() {
+        productClient.increaseStock(Arrays.asList(new DescreaseStockInput("123456",2),
+                new DescreaseStockInput("123457",2)));
+        return "productIncreaseStock ok";
     }
 
     @PostMapping("/create")

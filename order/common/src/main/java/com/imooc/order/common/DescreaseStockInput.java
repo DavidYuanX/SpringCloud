@@ -1,4 +1,4 @@
-package com.imooc.product.common;
+package com.imooc.order.common;
 
 import lombok.Data;
 

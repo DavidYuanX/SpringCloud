@@ -2,6 +2,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <dependencies>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.64</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -25,6 +37,7 @@
     <properties>
         <java.version>1.8</java.version>
         <spring-cloud.version>Greenwich.SR6</spring-cloud.version>
+        <order.version>0.0.1-SNAPSHOT</order.version>
     </properties>
 
     <dependencyManagement>
@@ -35,6 +48,16 @@
                 <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.imooc</groupId>
+                <artifactId>order-common</artifactId>
+                <version>${order.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.imooc</groupId>
+                <artifactId>order-client</artifactId>
+                <version>${order.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

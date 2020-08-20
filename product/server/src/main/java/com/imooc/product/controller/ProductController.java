@@ -62,19 +62,17 @@ public class ProductController {
         return resultVO.success(prductVoList);
     }
 
-//    @PostMapping("/listForOrder")
-//    public List<ProductInfoOutput> listForOrder(@RequestBody List<String> productIdList) {
-//        return productService.findList(productIdList);
-//    }
-//
-//    @PostMapping("/decreaseStock")
-//    public String decreaseStock(@RequestBody List<DescreaseStockInput> descreaseStockInputList) {
-//        productService.decreaseStock(descreaseStockInputList);
-//        return "decreaseStock ok";
-//    }
-//    @PostMapping("/increaseStock")
-//    public String increaseStock(@RequestBody List<DescreaseStockInput> descreaseStockInputList) {
-//        productService.increaseStock(descreaseStockInputList);
-//        return "increaseStock ok";
-//    }
+    @PostMapping("/listForOrder")
+    public List<ProductInfoOutput> listForOrder(@RequestBody List<String> productIdList) {
+        return productService.findList(productIdList);
+    }
+
+    @PostMapping("/decreaseStock")
+    public void decreaseStock(@RequestBody List<DescreaseStockInput> descreaseStockInputList) {
+        productService.decreaseStock(descreaseStockInputList);
+    }
+    @PostMapping("/increaseStock")
+    public void increaseStock(@RequestBody List<DescreaseStockInput> descreaseStockInputList) {
+        productService.increaseStock(descreaseStockInputList);
+    }
 }
