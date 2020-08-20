@@ -21,7 +21,7 @@ public interface OrderService {
 //    OrderDTO cancel(OrderDTO orderDTO);
 //
 //    // 完结订单
-//    OrderDTO finish(OrderDTO orderDTO);
+    OrderDTO finish(String orderId);
 //
 //    // 支付订单
 //    OrderDTO paid(OrderDTO orderDTO);

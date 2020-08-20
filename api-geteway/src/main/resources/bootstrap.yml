@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: api-geteway
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: CONFIG
+      profile: dev
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: routes
+zuul:
+  routes:
+#    myProduct:  # 改变路由
+#      path: /myProduct/**
+#      serviceId: product
+#      sensittiveHeaders: // 过滤 敏感头 为空 可以传递所有请求头 不填 默认不传请求头
+    product: /myProduct/** # 简洁改变路由
+  ignored-patterns: # 过滤 路由
+    -/product/product/listForOrder
+    -/myProduct/product/listForOrder
+    -/**/product/listForOrder # 通配符
