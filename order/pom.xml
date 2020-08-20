@@ -20,7 +20,7 @@
         <version>2.1.16.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.imooc</groupId>
+    <groupId>com.example</groupId>
     <artifactId>order</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>order</name>
@@ -50,12 +50,12 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>com.imooc</groupId>
+                <groupId>com.example</groupId>
                 <artifactId>order-common</artifactId>
                 <version>${order.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.imooc</groupId>
+                <groupId>com.example</groupId>
                 <artifactId>order-client</artifactId>
                 <version>${order.version}</version>
             </dependency>

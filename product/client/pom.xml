@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.imooc</groupId>
+        <groupId>com.example</groupId>
         <artifactId>product</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
@@ -22,7 +22,7 @@
             <artifactId>spring-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.imooc</groupId>
+            <groupId>com.example</groupId>
             <artifactId>product-common</artifactId>
         </dependency>
     </dependencies>
